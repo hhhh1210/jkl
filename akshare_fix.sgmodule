@@ -1,0 +1,11 @@
+#!name=AKShare Fix
+#!desc=修复 Python akshare 访问东方财富 API 时 User-Agent 被拦截的问题
+#!system=mac
+
+[Header Rewrite]
+http-request ^https?://push2his\.eastmoney\.com header-replace User-Agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+http-request ^https?://push2\.eastmoney\.com header-replace User-Agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+http-request ^https?://.*\.eastmoney\.com header-replace User-Agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+
+[MITM]
+hostname = %APPEND% *.eastmoney.com
