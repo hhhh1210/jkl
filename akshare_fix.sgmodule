@@ -1,8 +1,13 @@
 #!name=AKShare Fix
-#!desc=修复 Python akshare 访问东方财富 API 时 User-Agent 被拦截的问题
+#!desc=修复 Python akshare 通过 Surge 访问东方财富 API 时连接被中断的问题。通过 always-real-ip 避免 VIF 假 IP 拦截，并通过 MitM Header Rewrite 替换 User-Agent 防止 WAF 拦截。
 #!system=mac
 
+[General]
+# 让东方财富域名使用真实 IP，避免 Surge VIF 假 IP 导致连接中断
+always-real-ip = %APPEND% *.eastmoney.com
+
 [Header Rewrite]
+# 替换 python-requests 默认 UA 为浏览器 UA，防止东方财富 WAF 拦截
 http-request ^https?://push2his\.eastmoney\.com header-replace User-Agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
 http-request ^https?://push2\.eastmoney\.com header-replace User-Agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
 http-request ^https?://.*\.eastmoney\.com header-replace User-Agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
